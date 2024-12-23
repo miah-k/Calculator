@@ -21,7 +21,7 @@ body{
 
 #display{ 
     background-color:grey;
-    overflow: scroll; 
+    overflow: hidden; 
     width: 220px; 
     font-size: 30px;
     height: 70px; 

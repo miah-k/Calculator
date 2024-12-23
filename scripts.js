@@ -69,25 +69,41 @@ function operate(firstNum, operator, secondNum){
   return result; 
 }
 let validOperators = ["/", "*", "-", "+"]; 
-let actingAsEqual = ["/", "*", "-", "+", "="]; 
-let firstOperator = true; 
-let newOperator = "";
-let equalSelected = false; 
 function display(){
     const calcButtons= document.querySelectorAll("button"); 
     let screen = document.getElementById("display");  
     for(let i = 0; i < calcButtons.length; i++){
         calcButtons[i].addEventListener("click", function(e){
-           //adding a first number
-           if(toCalculate.secondNumber == Number.MAX_SAFE_INTEGER && e.target.classList.contains("num")){
-                console.log(e.target.innerHTML);
-                screen.textContent += e.target.innerHTML;
-                toCalculate.firstNumber = Number(screen.textContent);
-                console.log(toCalculate.firstNumber);
+           if(Number.isInteger(Number(e.target.innerHTML)) && toCalculate.operator ==""){
+             screen.textContent += e.target.innerHTML; 
+             toCalculate.firstNumber = Number(screen.textContent);
            }
-           //operator 
-           //adding a second number
-           //operator or equal sign 
+           if(!Number.isInteger(Number(e.target.innerHTML)) && toCalculate.firstNumber != Number.MAX_SAFE_INTEGER &&  e.target.innerHTML != "=" && toCalculate.operator == ""){
+                if(validOperators.includes(e.target.innerHTML)){
+                    toCalculate.operator = e.target.innerHTML; 
+                }
+            }
+           if(Number.isInteger(Number(e.target.innerHTML)) && toCalculate.operator !=""){
+                if(toCalculate.operator == "+" || toCalculate.operator == "-" || toCalculate.operator == "/" || toCalculate.operator == "*"){
+                    if(screen.textContent == toCalculate.firstNumber){
+                        screen.textContent = ""; 
+                    }
+                    screen.textContent += e.target.innerHTML; 
+                    toCalculate.secondNumber = Number(screen.textContent);
+                }
+           }
+           if(validOperators.includes(e.target.innerHTML) && toCalculate.secondNumber != Number.MAX_SAFE_INTEGER && toCalculate.firstNumber != Number.MAX_SAFE_INTEGER && toCalculate.operator != "" ){
+                screen.textContent = operate(Number(toCalculate.firstNumber), toCalculate.operator, Number(toCalculate.secondNumber)); 
+                toCalculate.firstNumber = screen.textContent; 
+                toCalculate.secondNumber = Number.MAX_SAFE_INTEGER; 
+                toCalculate.operator = e.target.innerHTML; 
+           }
+           if(toCalculate.secondNumber != Number.MAX_SAFE_INTEGER && e.target.innerHTML=="="){
+             screen.textContent = operate(Number(toCalculate.firstNumber), toCalculate.operator, Number(toCalculate.secondNumber)); 
+             toCalculate.firstNumber = screen.textContent; 
+             toCalculate.secondNumber = Number.MAX_SAFE_INTEGER; 
+             toCalculate.operator = ""
+           }
            switch(e.target.innerHTML){
             case "AC":
                 clear();
@@ -112,7 +128,7 @@ function display(){
                     toCalculate.firstNumber = Number(screen.textContent); 
                 }
                 break; 
-            case "." : 
+             case "." : 
                 if(screen.textContent.includes(".") == false){
                     screen.textContent+= ".";
                 }
@@ -124,6 +140,7 @@ function display(){
                 }
                 break;  
            }
+           
         })
     }
 }
