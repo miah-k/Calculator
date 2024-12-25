@@ -180,14 +180,6 @@ function display(){
                     screenStr += ".";
                     screen.textContent = screenStr;
                 }
-                else if(toCalculate.secondNumber != Number.MAX_SAFE_INTEGER){
-                    screenStr =  Number(screen.textContent); 
-                    toCalculate.secondNumber = screenStr; 
-                }
-                else{
-                    screenStr =  Number(screen.textContent);
-                    toCalculate.firstNumber = screenStr; 
-                }
                 break;  
            }
            
