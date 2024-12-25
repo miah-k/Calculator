@@ -27,7 +27,7 @@ function divide(a,b){
 }
 
 function percentage(a){
-    return a/100; 
+    return round(a/100); 
 }
 
 function negPos(a){
@@ -70,10 +70,35 @@ function operate(firstNum, operator, secondNum){
   }
   return result; 
 }
+
+function round(num){
+    let strNum = num.toString(); 
+    let index = strNum.indexOf("."); 
+    if(index != -1){
+        if(strNum.substring(index).length > 5){
+            return num.toPrecision(5); 
+        }
+    }
+    return num; 
+
+}
 function truncate(text){ 
     let truncated = text; 
-    if(truncated.length > 5){
-        truncated = truncated.slice(0,5); 
+    let decimalIndex = text.indexOf(".");
+    if(decimalIndex == -1){
+        if(truncated.length > 5){
+            truncated = truncated.slice(0,5); 
+        }
+    }
+    else{
+        if(text.substring(decimalIndex).length <= 2){
+            truncated = text; 
+        }
+        else{
+            if(text.substring(decimalIndex).length > 5){
+                truncated = text.slice(0,decimalIndex+5);
+            }
+        }
     }
     return truncated; 
 }
@@ -106,14 +131,14 @@ function display(){
                 }
            }
            if(validOperators.includes(e.target.innerHTML) && toCalculate.secondNumber != Number.MAX_SAFE_INTEGER && toCalculate.firstNumber != Number.MAX_SAFE_INTEGER && toCalculate.operator != "" ){
-                screen.textContent = operate(Number(toCalculate.firstNumber), toCalculate.operator, Number(toCalculate.secondNumber)); 
+                screen.textContent = round(operate(Number(toCalculate.firstNumber), toCalculate.operator, Number(toCalculate.secondNumber))); 
                 screenStr = screen.textContent;
                 toCalculate.firstNumber = screenStr; 
                 toCalculate.secondNumber = Number.MAX_SAFE_INTEGER; 
                 toCalculate.operator = e.target.innerHTML; 
            }
            if(toCalculate.secondNumber != Number.MAX_SAFE_INTEGER && e.target.innerHTML=="="){
-             screen.textContent = operate(Number(toCalculate.firstNumber), toCalculate.operator, Number(toCalculate.secondNumber)); 
+             screen.textContent = round(operate(Number(toCalculate.firstNumber), toCalculate.operator, Number(toCalculate.secondNumber))); 
              screenStr = screen.textContent; 
              toCalculate.firstNumber = screenStr; 
              toCalculate.secondNumber = Number.MAX_SAFE_INTEGER; 
