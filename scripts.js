@@ -1,4 +1,5 @@
 let fontSize = 30; 
+let screenStr = "";
 const toCalculate = {
     firstNumber: Number.MAX_SAFE_INTEGER, 
     firstNumberType: "positive",
@@ -47,6 +48,7 @@ function isOverflow(display) {
 function clear(){
     let screen = document.getElementById("display"); 
     screen.textContent = "";
+    screenStr= "";
     toCalculate.firstNumber = Number.MAX_SAFE_INTEGER;
     toCalculate.operator ="";   
 }
@@ -79,7 +81,6 @@ let validOperators = ["/", "*", "-", "+"];
 function display(){
     const calcButtons= document.querySelectorAll("button"); 
     let screen = document.getElementById("display");  
-    let screenStr = "";
     for(let i = 0; i < calcButtons.length; i++){
         calcButtons[i].addEventListener("click", function(e){
            if(Number.isInteger(Number(e.target.innerHTML)) && toCalculate.operator ==""){
@@ -97,6 +98,7 @@ function display(){
                 if(toCalculate.operator == "+" || toCalculate.operator == "-" || toCalculate.operator == "/" || toCalculate.operator == "*"){
                     if(screen.textContent == toCalculate.firstNumber){
                         screen.textContent = ""; 
+                        screenStr = ""; 
                     }
                     screenStr += e.target.innerHTML; 
                     screen.textContent = truncate(screenStr);
@@ -105,13 +107,15 @@ function display(){
            }
            if(validOperators.includes(e.target.innerHTML) && toCalculate.secondNumber != Number.MAX_SAFE_INTEGER && toCalculate.firstNumber != Number.MAX_SAFE_INTEGER && toCalculate.operator != "" ){
                 screen.textContent = operate(Number(toCalculate.firstNumber), toCalculate.operator, Number(toCalculate.secondNumber)); 
-                toCalculate.firstNumber = screen.textContent; 
+                screenStr = screen.textContent;
+                toCalculate.firstNumber = screenStr; 
                 toCalculate.secondNumber = Number.MAX_SAFE_INTEGER; 
                 toCalculate.operator = e.target.innerHTML; 
            }
            if(toCalculate.secondNumber != Number.MAX_SAFE_INTEGER && e.target.innerHTML=="="){
              screen.textContent = operate(Number(toCalculate.firstNumber), toCalculate.operator, Number(toCalculate.secondNumber)); 
-             toCalculate.firstNumber = screen.textContent; 
+             screenStr = screen.textContent; 
+             toCalculate.firstNumber = screenStr; 
              toCalculate.secondNumber = Number.MAX_SAFE_INTEGER; 
              toCalculate.operator = "";
            }
