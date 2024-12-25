@@ -68,18 +68,28 @@ function operate(firstNum, operator, secondNum){
   }
   return result; 
 }
+function truncate(text){ 
+    let truncated = text; 
+    if(truncated.length > 5){
+        truncated = truncated.slice(0,5); 
+    }
+    return truncated; 
+}
 let validOperators = ["/", "*", "-", "+"]; 
 function display(){
     const calcButtons= document.querySelectorAll("button"); 
     let screen = document.getElementById("display");  
+    let screenStr = "";
     for(let i = 0; i < calcButtons.length; i++){
         calcButtons[i].addEventListener("click", function(e){
            if(Number.isInteger(Number(e.target.innerHTML)) && toCalculate.operator ==""){
-             screen.textContent += e.target.innerHTML; 
+             screenStr += e.target.innerHTML; 
+             screen.textContent = truncate(screenStr);
              toCalculate.firstNumber = Number(screen.textContent);
            }
            if(!Number.isInteger(Number(e.target.innerHTML)) && toCalculate.firstNumber != Number.MAX_SAFE_INTEGER &&  e.target.innerHTML != "=" && toCalculate.operator == ""){
                 if(validOperators.includes(e.target.innerHTML)){
+                    screenStr = "";
                     toCalculate.operator = e.target.innerHTML; 
                 }
             }
@@ -88,7 +98,8 @@ function display(){
                     if(screen.textContent == toCalculate.firstNumber){
                         screen.textContent = ""; 
                     }
-                    screen.textContent += e.target.innerHTML; 
+                    screenStr += e.target.innerHTML; 
+                    screen.textContent = truncate(screenStr);
                     toCalculate.secondNumber = Number(screen.textContent);
                 }
            }
@@ -102,7 +113,7 @@ function display(){
              screen.textContent = operate(Number(toCalculate.firstNumber), toCalculate.operator, Number(toCalculate.secondNumber)); 
              toCalculate.firstNumber = screen.textContent; 
              toCalculate.secondNumber = Number.MAX_SAFE_INTEGER; 
-             toCalculate.operator = ""
+             toCalculate.operator = "";
            }
            switch(e.target.innerHTML){
             case "AC":
@@ -130,13 +141,16 @@ function display(){
                 break; 
              case "." : 
                 if(screen.textContent.includes(".") == false){
-                    screen.textContent+= ".";
+                    screenStr += ".";
+                    screen.textContent = screenStr;
                 }
-                if(toCalculate.secondNumber != Number.MAX_SAFE_INTEGER){
-                    toCalculate.secondNumber = Number(screen.textContent); 
+                else if(toCalculate.secondNumber != Number.MAX_SAFE_INTEGER){
+                    screenStr =  Number(screen.textContent); 
+                    toCalculate.secondNumber = screenStr; 
                 }
                 else{
-                    toCalculate.firstNumber = Number(screen.textContent); 
+                    screenStr =  Number(screen.textContent);
+                    toCalculate.firstNumber = screenStr; 
                 }
                 break;  
            }
