@@ -170,7 +170,7 @@ function display(){
                     screen.textContent = negPos(toCalculate.secondNumber); 
                     toCalculate.secondNumber = Number(screen.textContent); 
                 }
-                else{
+                else if(toCalculate.firstNumber != Number.MAX_SAFE_INTEGER){
                     screen.textContent = negPos(toCalculate.firstNumber); 
                     toCalculate.firstNumber = Number(screen.textContent); 
                 }
