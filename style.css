@@ -20,7 +20,7 @@ body{
 }
 
 #display{ 
-    background-color:grey;
+    background-color:gray;
     overflow: hidden; 
     width: 220px; 
     font-size: 30px;
@@ -37,6 +37,11 @@ button{
     height: 60px; 
     border-radius: 0px; 
     border: 1px solid black; 
+}
+
+button:hover {
+    background-color: grey;
+    transition: 0.7s;
 }
 
 .b0{

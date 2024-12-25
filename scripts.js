@@ -24,6 +24,7 @@ function divide(a,b){
     if(b != 0){
         return a/b; 
     }
+    return  Number.NEGATIVE_INFINITY;
 }
 
 function percentage(a){
@@ -102,6 +103,12 @@ function truncate(text){
     }
     return truncated; 
 }
+function adjustZero(input){
+    if(input ==  Number.NEGATIVE_INFINITY){
+        return "Clear & Try Again";
+    }
+    return input; 
+}
 let validOperators = ["/", "*", "-", "+"]; 
 function display(){
     const calcButtons= document.querySelectorAll("button"); 
@@ -131,14 +138,14 @@ function display(){
                 }
            }
            if(validOperators.includes(e.target.innerHTML) && toCalculate.secondNumber != Number.MAX_SAFE_INTEGER && toCalculate.firstNumber != Number.MAX_SAFE_INTEGER && toCalculate.operator != "" ){
-                screen.textContent = round(operate(Number(toCalculate.firstNumber), toCalculate.operator, Number(toCalculate.secondNumber))); 
+                screen.textContent = adjustZero(round(operate(Number(toCalculate.firstNumber), toCalculate.operator, Number(toCalculate.secondNumber)))); 
                 screenStr = screen.textContent;
                 toCalculate.firstNumber = screenStr; 
                 toCalculate.secondNumber = Number.MAX_SAFE_INTEGER; 
                 toCalculate.operator = e.target.innerHTML; 
            }
            if(toCalculate.secondNumber != Number.MAX_SAFE_INTEGER && e.target.innerHTML=="="){
-             screen.textContent = round(operate(Number(toCalculate.firstNumber), toCalculate.operator, Number(toCalculate.secondNumber))); 
+             screen.textContent = adjustZero(round(operate(Number(toCalculate.firstNumber), toCalculate.operator, Number(toCalculate.secondNumber)))); 
              screenStr = screen.textContent; 
              toCalculate.firstNumber = screenStr; 
              toCalculate.secondNumber = Number.MAX_SAFE_INTEGER; 
